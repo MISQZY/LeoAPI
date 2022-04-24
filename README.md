@@ -1,26 +1,4 @@
-<style>
-h1 {
-    font-size: 50px;
-    font-weight: bold;
-}
-#info {
-    font-size: 20px;
-}
-#name {
-    color: lime;
-}
-#file {
-
-    color: Red;
-    font-weight: bold;
-    font-size: 18px;
-    background-color: transparent;
-}
-#end {
-    font-size: 20px;
-    font-weight: bold;
-}
-
+<link rel="stylesheet" href="styles.css">
 </style>
 <h1 align = 'center'>LEO API</h1>
 <p align = 'center'><img width="400" height="400"  src='logo.png'></p>
