@@ -1,8 +1,7 @@
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 import time
-from random import randint 
-from settings import token, set_me
+from settings import token, set_me, checklist
 
 session=vk_api.VkApi(token = token)
 
@@ -30,24 +29,21 @@ def listener():
                 pass
             if user_id == Leo_id:
                 Leo(user_id, text)
-                
-    
+
 def Leo(user_id, text):
-    if "есть взаимная симпатия! добавляй в друзья -" in text:
+    if "есть взаимная симпатия! добавляй в друзья -" in text or 'надеюсь хорошо проведете время' in text:
         s = text
 
-        k = s[s.find('vk.com/'):s.find('\n')]  # поиск до новой строчки
-        # k = s[s.find('vk.com/'):s.find(' ', s.find('vk.com/'))] #Поиск до пробела
-        # k = s[s.find('vk.com/'):s.find('"', s.find('vk.com/'))] #Поиск до ""
+        k = s[s.find('vk.com/'):s.find('\n')]
 
         f = open('like.txt', 'a')
-        f.write('https://' + k)
+        f.write('https://' + k + '\n')
         time.sleep(3)
-        send_message(user_id, '1')
+        #send_message(user_id, '1')
         send_message(user_id = me, message = "Я кое кого нашел: " + 'https://' + k)
         time.sleep(4) 
 
-    elif text == "бот знакомств дайвинчик":
+    elif "бот знакомств дайвинчик" in text and "слишком много лайков за сегодня" not in text:
         send_message(user_id, "1")
         time.sleep(4) 
 
@@ -61,24 +57,30 @@ def Leo(user_id, text):
 
     elif "чтобы получать больше лайков" in text:
         send_message(user_id, "1")
-        time.sleep(4) 
-    elif "кому-то понравилась твоя анкета!":
-        send_message(user_id, "1")
-        time.sleep(2)
-    else:
-        send_message(user_id, "1")    
         time.sleep(4)
 
+    elif "хочешь больше взаимок?" in text:
+        send_message(user_id, '2')
+        time.sleep(4)
+
+    elif "кому-то понравилась твоя анкета!" in text:
+        send_message(user_id, "1")
+        time.sleep(2)
+
+    else:
+        splited_text = set(text.split())
+        if checklist.intersection(splited_text):
+            send_message(user_id, "3")
+        else:
+            send_message(user_id, "1")
+        time.sleep(6)
 
 def main():
-    print("Для запуска бота введите: start")
-    a = input()
-    if a == 'start':
+    print('Для начала работы введите start: ')
+    start_prog = str(input())
+    if start_prog == 'start':
         listener()
     else:
         main()
 
 main()
-
-
-
